@@ -9,14 +9,17 @@ class PagePhotoDownloader:
         url = "https://graph.facebook.com/v2.6/%s/photos?type=uploaded&access_token=%s" %(self.page_id, self.access_token)
 
         r = requests.get(url)
-        print r.json()
-
+        self.data =  r.json()
 
     def download(self):
-        pass
-
+        self.photos = self.data['data']
+        for index, value in enumerate(self.photos):
+            print value['id']
+        
+        
 if __name__ == "__main__":
     page_id = raw_input()
     access_token = raw_input()
     obj =  PagePhotoDownloader(page_id, access_token)
     obj.makeRequest()
+    obj.download()
