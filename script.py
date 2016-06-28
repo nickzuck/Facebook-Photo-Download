@@ -1,4 +1,5 @@
 import requests
+import urllib
 class PagePhotoDownloader:
     
     def __init__(self, page_id, access_token):
@@ -14,8 +15,12 @@ class PagePhotoDownloader:
     def download(self):
         self.photos = self.data['data']
         for index, value in enumerate(self.photos):
-            print value['id']
-        
+            name = value['id']
+            resource = urllib.urlopen("https://graph.facebook.com/%s/picture?type=normal" %(name))
+            fileName = name + ".jpg"
+            output = open(fileName,"wb")
+            output.write(resource.read())
+            output.close()
         
 if __name__ == "__main__":
     page_id = raw_input()
